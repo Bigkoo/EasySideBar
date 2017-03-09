@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.esaysidebar.R;
 import com.esaysidebar.bean.CitySortModel;
@@ -26,14 +27,19 @@ public class SortCityActivity extends Activity {
     private ListView sortListView;
     private EasySideBar sideBar;
     private TextView mTvTitle;
-    private TextView mTvLoaction;
+    private TextView mTvLoaction,tv_label_location,tv_label_hot;
     private SortAdapter adapter;
-    private GridCityAdapter cityAdapter;//热门城市数据
+    private GridCityAdapter cityAdapter;//热门城市的适配器
     private EditText mEtCityName;
-    private List<CitySortModel> SourceDateList;
-    private List<String> cityList;
+    private List<CitySortModel> SourceDateList;//内容数据源
 
-    private String titleText;
+    private List<String> HotCityList;//热门城市列表
+    private String titleText;//标题
+    private boolean isLazyRespond;//是否为懒加载
+    private String[] indexItems;//索引值
+    private String LocationCity;//定位城市
+    private int indexColor;//索引文字颜色
+    private int maxOffset;//滑动特效 最大偏移量
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,15 @@ public class SortCityActivity extends Activity {
         setContentView(R.layout.activity_sort_city);
 
         titleText = getIntent().getExtras().getString("titleText");
+        isLazyRespond = getIntent().getExtras().getBoolean("isLazyRespond");
+        indexItems =  getIntent().getExtras().getStringArray("indexItems");
+        LocationCity = getIntent().getExtras().getString("LocationCity");
+        HotCityList = getIntent().getStringArrayListExtra("HotCityList");
+        if (HotCityList==null){
+             HotCityList = new ArrayList<>();
+        }
+        indexColor = getIntent().getIntExtra("indexColor",0xFF0099CC);//默认索引颜色
+        maxOffset = getIntent().getIntExtra("maxOffset",80);
         initViews();
     }
 
@@ -49,7 +64,9 @@ public class SortCityActivity extends Activity {
         sideBar = (EasySideBar) findViewById(R.id.sidebar);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         sortListView = (ListView) findViewById(R.id.country_lvcountry);
-        initDatas();
+
+        sortListView.addHeaderView(initHeadView());
+        initSideBar();
         initEvents();
         setAdapter();
     }
@@ -58,20 +75,22 @@ public class SortCityActivity extends Activity {
         SourceDateList = filledData(getResources().getStringArray(R.array.provinces));
         Collections.sort(SourceDateList, new PinyinComparator());
         adapter = new SortAdapter(this, SourceDateList);
-        sortListView.addHeaderView(initHeadView());
         sortListView.setAdapter(adapter);
     }
 
     private void initEvents() {
+
         //设置右侧触摸监听
         sideBar.setOnSelectIndexItemListener(new EasySideBar.OnSelectIndexItemListener() {
             @Override
             public void onSelectIndexItem(String s) {
 
-                    //该字母首次出现的位置
-                    int position = adapter.getPositionForSection(s.charAt(0));
-                    if (position != -1) {
-                        sortListView.setSelection(position );
+                //该字母首次出现的位置
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if (position != -1) {
+                    sortListView.setSelection(position);
+                }else {
+                    sortListView.setSelection(0);
                 }
             }
         });
@@ -80,11 +99,11 @@ public class SortCityActivity extends Activity {
         sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String city = ((CitySortModel) adapter.getItem(position - 1)).getName();
-               //利用接口回调返回数据
+               //再利用resultActivity回调返回city数据
+                Toast.makeText(SortCityActivity.this,city,Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -109,24 +128,60 @@ public class SortCityActivity extends Activity {
         });
     }
 
-    private void initDatas() {//初始化数据
-        setTitle();
-      /* setLoacitonCity();
-        setHotCityList();*/
+    private void initSideBar() {//初始化sidebar
+        /*setTitle();*/
+        if (!TextUtils.isEmpty(titleText)){
+            mTvTitle.setVisibility(View.VISIBLE);
+            mTvTitle.setText(titleText);
+        }else {
+            mTvTitle.setVisibility(View.GONE);
+        }
+        sideBar.setIndexItems(indexItems);
+        sideBar.setLazyRespond(isLazyRespond);
+        sideBar.setTextColor(indexColor);
+        sideBar.setMaxOffset(maxOffset);
     }
 
     private View initHeadView() {
 
         View headView = getLayoutInflater().inflate(R.layout.sortcity_headview, null);
         GridView mGvCity = (GridView) headView.findViewById(R.id.gv_hot_city);
-        mTvLoaction = (TextView) headView.findViewById(R.id.tv_loaction_city);
-        cityList = new ArrayList<>();
-        cityAdapter = new GridCityAdapter(getApplicationContext(), R.layout.gridview_item, cityList);
+        mTvLoaction =(TextView) headView.findViewById(R.id.tv_location_city);
+        tv_label_location =(TextView) headView.findViewById(R.id.tv_label_location);
+        tv_label_hot =(TextView) headView.findViewById(R.id.tv_label_hot);
+
+        if (HotCityList.size()<=0){//热门城市
+            tv_label_hot.setVisibility(View.GONE);
+        }else {
+            tv_label_hot.setVisibility(View.VISIBLE);
+        }
+
+        if (TextUtils.isEmpty(LocationCity)){//定位城市
+            mTvLoaction.setVisibility(View.GONE);
+            tv_label_location.setVisibility(View.GONE);
+
+        } else {
+
+            tv_label_location.setVisibility(View.VISIBLE);
+            mTvLoaction.setVisibility(View.VISIBLE);
+            mTvLoaction.setText(LocationCity);//设置定位城市
+
+            mTvLoaction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(SortCityActivity.this,"选中定位城市:"+LocationCity,Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+
+        cityAdapter = new GridCityAdapter(this, R.layout.gridview_item, HotCityList);
         mGvCity.setAdapter(cityAdapter);
         mGvCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-              //Gird city
+              //选中的 Gird city
+                Toast.makeText(SortCityActivity.this,HotCityList.get(i),Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -147,7 +202,8 @@ public class SortCityActivity extends Activity {
             mSortList.clear();
             for (CitySortModel sortModel : SourceDateList) {
                 String name = sortModel.getName();
-                if (name.toUpperCase().indexOf(filterStr.toString().toUpperCase()) != -1 || PinyinUtils.getPingYin(name).toUpperCase().startsWith(filterStr.toString().toUpperCase())) {
+               /* name.toUpperCase().indexOf(filterStr.toString().toUpperCase()) != -1*/
+                if (name.toUpperCase().contains(filterStr.toString().toUpperCase()) || PinyinUtils.getPingYin(name).toUpperCase().startsWith(filterStr.toString().toUpperCase())) {
                     mSortList.add(sortModel);
                 }
             }
@@ -157,7 +213,7 @@ public class SortCityActivity extends Activity {
         adapter.updateListView(mSortList);
     }
 
-    private List<CitySortModel> filledData(String[] date) {
+    private List<CitySortModel> filledData(String[] date) {//获取数据，并根据拼音分类,添加index
         List<CitySortModel> mSortList = new ArrayList<>();
         ArrayList<String> indexString = new ArrayList<>();
 
@@ -177,37 +233,36 @@ public class SortCityActivity extends Activity {
             mSortList.add(sortModel);
         }
         Collections.sort(indexString);
-        /*sideBar.setIndexText(indexString);*/
+        /*sideBar.setIndexText(indexString);*/ //只显示有内容部分的字母index
         return mSortList;
     }
 
 
     /**
-     * 设置头部热门城市数据
-     * @param cityList
+     * 添加头部热门城市数据
      */
-    public void setHotCityList(List<String> cityList) {
-        for (String s : cityList) {
-            this.cityList.add(s);
+   /* public void addHotCityList() {
+
+        for (String s : HotCityList) {
+            this.HotCityList.add(s);
         }
         cityAdapter.notifyDataSetChanged();
-    }
+    }*/
 
     /**
      * 设置标题
      */
-    public void setTitle() {
+   /* public void setTitle() {
         if (!TextUtils.isEmpty(titleText)){
             mTvTitle.setVisibility(View.VISIBLE);
             mTvTitle.setText(titleText);
         }
-    }
+    }*/
 
     /**
      * 设置定位城市
-     * @param city
      */
-    public void setLoacitonCity(String city) {
-        mTvLoaction.setText(city);
-    }
+   /* public void setLocaitonCity() {
+        mTvLoaction.setText(LocationCity);
+    }*/
 }

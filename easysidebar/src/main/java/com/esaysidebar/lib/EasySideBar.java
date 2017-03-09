@@ -2,6 +2,7 @@ package com.esaysidebar.lib;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -9,10 +10,9 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import java.util.Arrays;
 
 /**
- * @TODO<WaveSideDar>
+ * @TODO<WaveSideBar>
  * @author 小嵩
  * @date 2017-3-9 10:37:24
  */
@@ -50,7 +50,7 @@ public class EasySideBar extends View {
     /**
      * offset of the current selected index item
      */
-    private float mMaxOffset = DEFAULT_MAX_OFFSET;
+    private float mMaxOffset;
 
     /**
      * {@link #mStartTouching} will be set to true when {@link MotionEvent#ACTION_DOWN}
@@ -122,6 +122,11 @@ public class EasySideBar extends View {
     public EasySideBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mDisplayMetrics = context.getResources().getDisplayMetrics();
+
+        mTextColor = Color.GRAY;
+        mMaxOffset = dp2px(DEFAULT_MAX_OFFSET);
+        mSideBarPosition = POSITION_RIGHT;
+        mTextAlignment = TEXT_ALIGN_CENTER;
 
         /*TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.WaveSideBar);
         mLazyRespond = typedArray.getBoolean(R.styleable.WaveSideBar_sidebar_lazy_respond, false);
@@ -320,8 +325,13 @@ public class EasySideBar extends View {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, this.mDisplayMetrics);
     }
 
-    public void setIndexItems(String... indexItems) {
-        mIndexItems = Arrays.copyOf(indexItems, indexItems.length);
+
+
+
+
+    //Customize
+    public void setIndexItems(String[] indexItems) {
+        this.mIndexItems = indexItems;
         requestLayout();
     }
 

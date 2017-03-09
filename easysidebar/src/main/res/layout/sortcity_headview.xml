@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_label_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -20,12 +21,11 @@
             android:textSize="14sp" />
 
         <TextView
-
+            android:id="@+id/tv_location_city"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="广州"
             android:textSize="14dp"
-            android:id="@+id/tv_loaction_city"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
@@ -41,6 +41,7 @@
         android:background="#E0E0E0" />
 
     <TextView
+        android:id="@+id/tv_label_hot"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:gravity="center_vertical"

@@ -10,13 +10,13 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:text="Titel"
+        android:text="标题"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:background="#0088AA"
-        android:textColor="#333333"/>
+        android:background="#0099CC"
+        android:textColor="#DDDDDD"/>
 
     <com.esaysidebar.lib.EditTextWithDel
         android:id="@+id/et_search"

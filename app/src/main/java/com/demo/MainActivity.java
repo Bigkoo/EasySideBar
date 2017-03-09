@@ -9,6 +9,9 @@ import com.esaysidebar.EasySideBarBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private final String[] DEFAULT_INDEX_ITEMS = {"热门","A", "B", "C", "D", "E", "F", "G", "H", "I",
+            "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
                 new EasySideBarBuilder(MainActivity.this)
                         .setTitle("测试标题")
+                        /*.setIndexColor(Color.BLUE)*/
+                        .setIndexItems(DEFAULT_INDEX_ITEMS)
                         .start();
 
             }
