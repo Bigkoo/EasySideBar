@@ -336,7 +336,7 @@ public class EasySideBar extends View {
     }
 
     public void setTextColor(int color) {
-        mTextColor = color;
+        this.mTextColor = color;
         mPaint.setColor(color);
         invalidate();
     }

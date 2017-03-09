@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import com.esaysidebar.EasySideBarBuilder;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -27,9 +29,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                ArrayList<String> hotCityList = new ArrayList<>();
+                hotCityList.add("北京");
+                hotCityList.add("上海");
+                hotCityList.add("广州");
+                hotCityList.add("深圳");
+                hotCityList.add("杭州");
+
                 new EasySideBarBuilder(MainActivity.this)
                         .setTitle("测试标题")
                         /*.setIndexColor(Color.BLUE)*/
+                        .setHotCityList(hotCityList)
                         .setIndexItems(DEFAULT_INDEX_ITEMS)
                         .start();
 

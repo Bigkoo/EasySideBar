@@ -23,7 +23,7 @@ public class EasySideBarBuilder {
     private boolean isLazyRespond;
     private  String[] indexItems;
     private String LocationCity;
-    private int indexColor;//索引文字颜色
+    private int indexColor= 0xFF666666;//默认索引文字颜色
     private int maxOffset = 80;
 
     private ArrayList<String> HotCityList;//热门城市列表

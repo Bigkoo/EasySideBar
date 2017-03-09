@@ -54,7 +54,7 @@ public class SortCityActivity extends Activity {
         if (HotCityList==null){
              HotCityList = new ArrayList<>();
         }
-        indexColor = getIntent().getIntExtra("indexColor",0xFF0099CC);//默认索引颜色
+        indexColor = getIntent().getIntExtra("indexColor",0xFF666666);//索引颜色
         maxOffset = getIntent().getIntExtra("maxOffset",80);
         initViews();
     }
@@ -237,32 +237,4 @@ public class SortCityActivity extends Activity {
         return mSortList;
     }
 
-
-    /**
-     * 添加头部热门城市数据
-     */
-   /* public void addHotCityList() {
-
-        for (String s : HotCityList) {
-            this.HotCityList.add(s);
-        }
-        cityAdapter.notifyDataSetChanged();
-    }*/
-
-    /**
-     * 设置标题
-     */
-   /* public void setTitle() {
-        if (!TextUtils.isEmpty(titleText)){
-            mTvTitle.setVisibility(View.VISIBLE);
-            mTvTitle.setText(titleText);
-        }
-    }*/
-
-    /**
-     * 设置定位城市
-     */
-   /* public void setLocaitonCity() {
-        mTvLoaction.setText(LocationCity);
-    }*/
 }
