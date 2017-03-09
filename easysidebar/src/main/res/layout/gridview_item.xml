@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_city"
+        android:gravity="center"
+        android:background="@android:color/white"
+        android:layout_width="70dp"
+        android:paddingLeft="4dp"
+        android:layout_margin="5dp"
+        android:paddingRight="4dp"
+        android:textColor="#979797"
+        android:layout_height="38dp" />
+
+</LinearLayout>
