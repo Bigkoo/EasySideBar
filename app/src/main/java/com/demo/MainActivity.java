@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final String[] DEFAULT_INDEX_ITEMS = {"热门","A", "B", "C", "D", "E", "F", "G", "H", "I",
+    private final String[] mIndexItems = {"热门","A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +39,11 @@ public class MainActivity extends AppCompatActivity {
                 new EasySideBarBuilder(MainActivity.this)
                         .setTitle("测试标题")
                         /*.setIndexColor(Color.BLUE)*/
-                        .setHotCityList(hotCityList)
-                        .setIndexItems(DEFAULT_INDEX_ITEMS)
+                        .isLazyRespond(true) //懒加载
+                        .setHotCityList(hotCityList)//热门城市列表
+                        .setIndexItems(mIndexItems)//索引字母
+                        .setLocationCity("广州")//定位城市
+                        .setMaxOffset(80)//索引的最大偏移量
                         .start();
 
             }
