@@ -366,7 +366,7 @@ public class EasySideBar extends View {
     }
 
     public void setMaxOffset(int offset) {
-        mMaxOffset = offset;
+        mMaxOffset = dp2px(offset);
         invalidate();
     }
 
