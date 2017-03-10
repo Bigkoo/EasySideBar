@@ -58,8 +58,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case EasySideBarBuilder.CODE_SIDEREQUEST:
-                String city = data.getStringExtra("selected");
-                Toast.makeText(this,"选择的城市："+city,Toast.LENGTH_SHORT).show();
+             if (data!=null){
+                 String city = data.getStringExtra("selected");
+                 Toast.makeText(this,"选择的城市："+city,Toast.LENGTH_SHORT).show();
+             }
+                break;
+
+            default:
                 break;
         }
 

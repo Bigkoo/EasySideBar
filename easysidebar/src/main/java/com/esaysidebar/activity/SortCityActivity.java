@@ -72,7 +72,7 @@ public class SortCityActivity extends Activity {
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                SortCityActivity.this.finish();
             }
         });
 
