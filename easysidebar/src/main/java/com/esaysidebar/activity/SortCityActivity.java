@@ -1,6 +1,7 @@
 package com.esaysidebar.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -12,8 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.esaysidebar.EasySideBarBuilder;
 import com.esaysidebar.R;
 import com.esaysidebar.bean.CitySortModel;
 import com.esaysidebar.lib.EasySideBar;
@@ -118,9 +119,7 @@ public class SortCityActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String city = ((CitySortModel) adapter.getItem(position - 1)).getName();
-               //再利用resultActivity回调返回city数据
-                Toast.makeText(SortCityActivity.this,city,Toast.LENGTH_SHORT).show();
-
+                SentDataForResult(city);
             }
         });
 
@@ -185,7 +184,8 @@ public class SortCityActivity extends Activity {
             mTvLoaction.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SortCityActivity.this,"选中定位城市:"+LocationCity,Toast.LENGTH_SHORT).show();
+
+                    SentDataForResult(LocationCity);
                 }
             });
         }
@@ -197,11 +197,20 @@ public class SortCityActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
               //选中的 Gird city
-                Toast.makeText(SortCityActivity.this,HotCityList.get(i),Toast.LENGTH_SHORT).show();
+
+                SentDataForResult(HotCityList.get(i));
+
             }
         });
 
         return headView;
+    }
+
+    private void SentDataForResult(String city) {
+        Intent mIntent = new Intent();
+        mIntent.putExtra("selected", city);
+        SortCityActivity.this.setResult(EasySideBarBuilder.CODE_SIDEREQUEST, mIntent);
+        SortCityActivity.this.finish();
     }
 
 

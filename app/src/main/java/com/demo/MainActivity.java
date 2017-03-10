@@ -1,9 +1,11 @@
 package com.demo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.esaysidebar.EasySideBarBuilder;
 
@@ -50,4 +52,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //数据回调
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case EasySideBarBuilder.CODE_SIDEREQUEST:
+                String city = data.getStringExtra("selected");
+                Toast.makeText(this,"选择的城市："+city,Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        }
+
 }

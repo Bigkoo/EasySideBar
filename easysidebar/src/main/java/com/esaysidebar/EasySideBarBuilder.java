@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class EasySideBarBuilder {
 
     private Context mContext;
-    public static final int SIDEREQUESTCODE = 0x0011; // ActivityForResult回调值
+    public static final int CODE_SIDEREQUEST = 0x00000011; // ActivityForResult回调值
     private String mtitleText;
     private boolean isLazyRespond;
     private  String[] indexItems;
@@ -72,6 +72,6 @@ public class EasySideBarBuilder {
         intent.putExtra("maxOffset",maxOffset);
         intent.putStringArrayListExtra("HotCityList",HotCityList);
 
-        activity.startActivityForResult(intent,SIDEREQUESTCODE);
+        activity.startActivityForResult(intent,CODE_SIDEREQUEST);
     }
 }
