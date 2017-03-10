@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class SortCityActivity extends Activity {
         }
         indexColor = getIntent().getIntExtra("indexColor",0xFF666666);//索引颜色
         maxOffset = getIntent().getIntExtra("maxOffset",80);
+
         initViews();
     }
 
@@ -64,6 +66,14 @@ public class SortCityActivity extends Activity {
         sideBar = (EasySideBar) findViewById(R.id.sidebar);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         sortListView = (ListView) findViewById(R.id.country_lvcountry);
+        ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
+
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         sortListView.addHeaderView(initHeadView());
         initSideBar();
@@ -83,14 +93,20 @@ public class SortCityActivity extends Activity {
         //设置右侧触摸监听
         sideBar.setOnSelectIndexItemListener(new EasySideBar.OnSelectIndexItemListener() {
             @Override
-            public void onSelectIndexItem(String s) {
-
+            public void onSelectIndexItem(int index, String value) {
                 //该字母首次出现的位置
-                int position = adapter.getPositionForSection(s.charAt(0));
+                int position = adapter.getPositionForSection(value.charAt(0));
+
                 if (position != -1) {
                     sortListView.setSelection(position);
-                }else {
-                    sortListView.setSelection(0);
+                }else {//未匹配到索引内容
+
+                    if (index <= SourceDateList.size()){//小于总长度，则匹配到相邻位置
+                        sortListView.setSelection(index);
+                    }else {//匹配到最后一项
+                        sortListView.setSelection(SourceDateList.size());
+                    }
+
                 }
             }
         });

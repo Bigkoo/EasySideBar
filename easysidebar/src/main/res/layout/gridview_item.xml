@@ -8,8 +8,8 @@
     <TextView
         android:id="@+id/tv_city"
         android:gravity="center"
-        android:background="@android:color/white"
-        android:layout_width="70dp"
+        android:background="@drawable/select_btn_white_gray"
+        android:layout_width="match_parent"
         android:paddingLeft="4dp"
         android:layout_margin="5dp"
         android:paddingRight="4dp"

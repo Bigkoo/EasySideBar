@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="common_white" type="drawable">@color/color_background</item>
+    <item name="common_transparent" type="drawable">@color/color_transparent</item>
+    <item name="common_gray_transparent" type="drawable">@color/color_gray_transparent</item>
+</resources>

@@ -11,6 +11,8 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import static android.R.attr.width;
+
 /**
  * @TODO<WaveSideBar>
  * @author 小嵩
@@ -41,9 +43,10 @@ public class EasySideBar extends View {
     private Paint mPaint;
     private int mTextColor;
     private float mTextSize;
-
+    private int MaxHeight;
+    private int MaxWidth;
     /**
-     * the height of each index item
+     * the Height of each index item
      */
     private float mIndexItemHeight;
 
@@ -59,7 +62,7 @@ public class EasySideBar extends View {
     private RectF mStartTouchingArea = new RectF();
 
     /**
-     * height and width of {@link #mStartTouchingArea}
+     * Height and width of {@link #mStartTouchingArea}
      */
     private float mBarHeight;
     private float mBarWidth;
@@ -72,7 +75,7 @@ public class EasySideBar extends View {
     private boolean mStartTouching = false;
 
     /**
-     * if true, the {@link OnSelectIndexItemListener#onSelectIndexItem(String)}
+     * if true, the {@link OnSelectIndexItemListener#onSelectIndexItem(int,String)}
      * will not be called until the finger up.
      * if false, it will be called when the finger down, up and move.
      */
@@ -159,21 +162,32 @@ public class EasySideBar extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
+         MaxHeight = MeasureSpec.getSize(heightMeasureSpec);
+         MaxWidth = MeasureSpec.getSize(widthMeasureSpec);
+
 
         Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();
         mIndexItemHeight = fontMetrics.bottom - fontMetrics.top;
         mBarHeight = mIndexItems.length * mIndexItemHeight;
+
+        while (mBarHeight >= MaxHeight){
+            mTextSize--;
+            mPaint.setTextSize(mTextSize);
+
+            fontMetrics = mPaint.getFontMetrics();
+            mIndexItemHeight = fontMetrics.bottom - fontMetrics.top;
+            mBarHeight = mIndexItems.length * mIndexItemHeight;
+        }
+
 
         // calculate the width of the longest text as the width of side bar
         for (String indexItem : mIndexItems) {
             mBarWidth = Math.max(mBarWidth, mPaint.measureText(indexItem));
         }
 
-        float areaLeft = (mSideBarPosition == POSITION_LEFT) ? 0 : (width - mBarWidth - getPaddingRight());
+        float areaLeft = (mSideBarPosition == POSITION_LEFT) ? 0 : (MaxWidth - mBarWidth - getPaddingRight());
         float areaRight = (mSideBarPosition == POSITION_LEFT) ? (getPaddingLeft() + areaLeft + mBarWidth) : width;
-        float areaTop = height/2 - mBarHeight/2;
+        float areaTop = MaxHeight /2 - mBarHeight/2;
         float areaBottom = areaTop + mBarHeight;
         mStartTouchingArea.set(
                 areaLeft,
@@ -182,17 +196,18 @@ public class EasySideBar extends View {
                 areaBottom);
 
         // the baseline Y of the first item' text to draw
-        mFirstItemBaseLineY = (height/2 - mIndexItems.length*mIndexItemHeight/2)
+        mFirstItemBaseLineY = (MaxHeight /2 - mIndexItems.length*mIndexItemHeight/2)
                 + (mIndexItemHeight/2 - (fontMetrics.descent-fontMetrics.ascent)/2)
                 - fontMetrics.ascent;
     }
 
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         // draw each item
-        for (int i = 0, mIndexItemsLength = mIndexItems.length; i < mIndexItemsLength; i++) {
+        for (int i = 0; i < mIndexItems.length; i++) {
             float baseLineY = mFirstItemBaseLineY + mIndexItemHeight*i;
 
             // calculate the scale factor of the item to draw
@@ -274,7 +289,7 @@ public class EasySideBar extends View {
                 if (mStartTouchingArea.contains(eventX, eventY)) {
                     mStartTouching = true;
                     if (!mLazyRespond && onSelectIndexItemListener != null) {
-                        onSelectIndexItemListener.onSelectIndexItem(mIndexItems[mCurrentIndex]);
+                        onSelectIndexItemListener.onSelectIndexItem(mCurrentIndex,mIndexItems[mCurrentIndex]);
                     }
                     invalidate();
                     return true;
@@ -285,7 +300,7 @@ public class EasySideBar extends View {
 
             case MotionEvent.ACTION_MOVE:
                 if (mStartTouching && !mLazyRespond && onSelectIndexItemListener != null) {
-                    onSelectIndexItemListener.onSelectIndexItem(mIndexItems[mCurrentIndex]);
+                    onSelectIndexItemListener.onSelectIndexItem(mCurrentIndex,mIndexItems[mCurrentIndex]);
                 }
                 invalidate();
                 return true;
@@ -293,7 +308,7 @@ public class EasySideBar extends View {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if (mLazyRespond && onSelectIndexItemListener != null) {
-                    onSelectIndexItemListener.onSelectIndexItem(mIndexItems[mCurrentIndex]);
+                    onSelectIndexItemListener.onSelectIndexItem(mCurrentIndex,mIndexItems[mCurrentIndex]);
                 }
                 mCurrentIndex = -1;
                 mStartTouching = false;
@@ -338,7 +353,7 @@ public class EasySideBar extends View {
     public void setTextColor(int color) {
         this.mTextColor = color;
         mPaint.setColor(color);
-        invalidate();
+            invalidate();
     }
 
     public void setPosition(int position) {
@@ -380,6 +395,6 @@ public class EasySideBar extends View {
     }
 
     public interface OnSelectIndexItemListener {
-        void onSelectIndexItem(String index);
+        void onSelectIndexItem(int index, String indexValue);
     }
 }

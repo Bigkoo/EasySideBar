@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 公用的背景颜色 -->
+    <color name="color_background">#F9F9F9</color>
+
+    <color name="color_background_gray">#F0F0F0</color>
+
+    <color name="color_gray_transparent">#88AAAAAA</color>
+
+    <color name="color_transparent">#00000000</color>
+
+</resources>

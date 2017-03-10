@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#F0F0F0">
+    android:background="@color/color_background_gray"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,18 +28,15 @@
             android:text="广州"
             android:textSize="14dp"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:drawableLeft="@mipmap/ic_location"
+            android:drawablePadding="4dp"
             android:layout_marginBottom="10dp"
             android:padding="10dp"
-            android:background="@drawable/edittext_background"/>
-
+            android:background="@drawable/selector_btn_press"/>
 
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginRight="24dp"
-        android:background="#E0E0E0" />
 
     <TextView
         android:id="@+id/tv_label_hot"
@@ -54,15 +52,27 @@
         android:id="@+id/gv_hot_city"
         android:layout_width="match_parent"
         android:layout_marginRight="20dp"
+        android:layout_marginLeft="10dp"
         android:numColumns="3"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="5dp"
+        android:listSelector="@android:color/transparent"
+        tools:listitem="@layout/gridview_item"
         android:layout_height="match_parent" />
 
-    <TextView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="#E0E0E0" />
+
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:gravity="center_vertical"
         android:layout_marginLeft="16dp"
         android:text="主要城市"
         android:textColor="@android:color/black"
-        android:textSize="14sp" />
+        android:textSize="14sp" />-->
 </LinearLayout>

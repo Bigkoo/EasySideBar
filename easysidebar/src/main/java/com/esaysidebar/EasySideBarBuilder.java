@@ -62,7 +62,7 @@ public class EasySideBarBuilder {
     }
 
     public void start(){
-        Activity activity = (Activity)mContext;
+        Activity activity = (Activity) mContext;
         Intent intent = new Intent(mContext, SortCityActivity.class);
         intent.putExtra("titleText",mtitleText);
         intent.putExtra("isLazyRespond",isLazyRespond);

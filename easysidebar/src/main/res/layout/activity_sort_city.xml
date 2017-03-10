@@ -3,32 +3,47 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F0F0"
+    android:background="@color/color_background"
     android:orientation="vertical">
 
 
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="46dp"
+       android:background="#0088CC">
 
-    <TextView
+       <ImageView
+           android:id="@+id/iv_back"
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:src="@mipmap/ic_back"
+           android:padding="12dp"/>
+
+
+      <TextView
         android:id="@+id/tv_title"
         android:text="标题"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_centerInParent="true"
         android:padding="10dp"
-        android:background="#0099CC"
-        android:textColor="#DDDDDD"/>
+        android:textColor="#EEEEEE"/>
+
+    </RelativeLayout>
+
 
     <com.esaysidebar.lib.EditTextWithDel
         android:id="@+id/et_search"
-        android:hint="请输入城市"
+        android:hint="请输入城市名或拼音查询"
         android:maxLines="1"
         android:paddingLeft="10dp"
         android:textSize="15dp"
+        android:textColorHint="@android:color/darker_gray"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_background"
+        android:background="@drawable/edit_background"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
