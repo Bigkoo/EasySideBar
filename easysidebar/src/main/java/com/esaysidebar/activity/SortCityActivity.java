@@ -91,7 +91,7 @@ public class SortCityActivity extends Activity {
 
     private void initEvents() {
 
-        //设置右侧触摸监听
+        //设置右侧触摸监听, （此处还需要优化）
         sideBar.setOnSelectIndexItemListener(new EasySideBar.OnSelectIndexItemListener() {
             @Override
             public void onSelectIndexItem(int index, String value) {
@@ -102,11 +102,18 @@ public class SortCityActivity extends Activity {
                     sortListView.setSelection(position);
                 }else {//未匹配到索引内容
 
-                    if (index <= SourceDateList.size()){//小于总长度，则匹配到相邻位置
+                    if (index==1||index==0){//定位、热门索引
+                        sortListView.setSelection(0);
+                    }else {
+                        //需要sortListView设置成index相邻的位置
+                    }
+
+
+                   /* if (index <= SourceDateList.size()){//小于总长度，则匹配到相邻位置
                         sortListView.setSelection(index);
                     }else {//匹配到最后一项
                         sortListView.setSelection(SourceDateList.size());
-                    }
+                    }*/
 
                 }
             }
@@ -240,7 +247,8 @@ public class SortCityActivity extends Activity {
 
     private List<CitySortModel> filledData(String[] date) {//获取数据，并根据拼音分类,添加index
         List<CitySortModel> mSortList = new ArrayList<>();
-        ArrayList<String> indexString = new ArrayList<>();
+        ArrayList<String> indexString = new ArrayList<>();//索引字母数组
+
 
         for (int i = 0; i < date.length; i++) {
             CitySortModel sortModel = new CitySortModel();
@@ -250,6 +258,7 @@ public class SortCityActivity extends Activity {
             if (sortString.matches("[A-Z]")) {
                 sortModel.setSortLetters(sortString.toUpperCase());
                 if (!indexString.contains(sortString)) {
+
                     indexString.add(sortString);
                 }
             }else{
