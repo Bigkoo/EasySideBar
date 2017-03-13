@@ -13,9 +13,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private final String[] mIndexItems = {"定位","热门","A", "B", "C", "D", "E", "F", "G", "H", "I",
-            "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#"};
+    private final String[] mIndexItems = {"定位","热门"};//头部额外的索引
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +35,21 @@ public class MainActivity extends AppCompatActivity {
                 hotCityList.add("广州");
                 hotCityList.add("深圳");
                 hotCityList.add("杭州");
+                hotCityList.add("成都");
+                hotCityList.add("厦门");
+                hotCityList.add("天津");
+                hotCityList.add("武汉");
+                hotCityList.add("长沙");
 
                 new EasySideBarBuilder(MainActivity.this)
-                        .setTitle("测试标题")
+                        .setTitle("城市选择")
                         /*.setIndexColor(Color.BLUE)*/
                         .setIndexColor(0xFF0095EE)
-                       /* .isLazyRespond(true) //懒加载*/
+                       /* .isLazyRespond(true) //懒加载模式*/
                         .setHotCityList(hotCityList)//热门城市列表
                         .setIndexItems(mIndexItems)//索引字母
                         .setLocationCity("广州")//定位城市
-                        .setMaxOffset(80)//索引的最大偏移量
+                        .setMaxOffset(60)//索引的最大偏移量
                         .start();
 
             }

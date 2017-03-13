@@ -38,7 +38,7 @@ public class SortCityActivity extends Activity {
     private List<String> HotCityList;//热门城市列表
     private String titleText;//标题
     private boolean isLazyRespond;//是否为懒加载
-    private String[] indexItems;//索引值
+    private String[] indexItems;//头部的索引值
     private String LocationCity;//定位城市
     private int indexColor;//索引文字颜色
     private int maxOffset;//滑动特效 最大偏移量
@@ -83,6 +83,7 @@ public class SortCityActivity extends Activity {
     }
 
     private void setAdapter() {
+
         SourceDateList = filledData(getResources().getStringArray(R.array.provinces));
         Collections.sort(SourceDateList, new PinyinComparator());
         adapter = new SortAdapter(this, SourceDateList);
@@ -99,21 +100,14 @@ public class SortCityActivity extends Activity {
                 int position = adapter.getPositionForSection(value.charAt(0));
 
                 if (position != -1) {
-                    sortListView.setSelection(position);
+                    sortListView.setSelection(position + sortListView.getHeaderViewsCount());
                 }else {//未匹配到索引内容
 
-                    if (index==1||index==0){//定位、热门索引
-                        sortListView.setSelection(0);
-                    }else {
-                        //需要sortListView设置成index相邻的位置
+                    for (int i= 0; i<indexItems.length;i++){//匹配头部索引
+                        if (value.equals(indexItems[i])){
+                            sortListView.setSelection(0);
+                        }
                     }
-
-
-                   /* if (index <= SourceDateList.size()){//小于总长度，则匹配到相邻位置
-                        sortListView.setSelection(index);
-                    }else {//匹配到最后一项
-                        sortListView.setSelection(SourceDateList.size());
-                    }*/
 
                 }
             }
@@ -158,7 +152,7 @@ public class SortCityActivity extends Activity {
         }else {
             mTvTitle.setVisibility(View.GONE);
         }
-        sideBar.setIndexItems(indexItems);
+        /*sideBar.setIndexItems(indexItems);*/
         sideBar.setLazyRespond(isLazyRespond);
         sideBar.setTextColor(indexColor);
         sideBar.setMaxOffset(maxOffset);
@@ -248,7 +242,7 @@ public class SortCityActivity extends Activity {
     private List<CitySortModel> filledData(String[] date) {//获取数据，并根据拼音分类,添加index
         List<CitySortModel> mSortList = new ArrayList<>();
         ArrayList<String> indexString = new ArrayList<>();//索引字母数组
-
+        boolean isGarbled = false;
 
         for (int i = 0; i < date.length; i++) {
             CitySortModel sortModel = new CitySortModel();
@@ -258,17 +252,34 @@ public class SortCityActivity extends Activity {
             if (sortString.matches("[A-Z]")) {
                 sortModel.setSortLetters(sortString.toUpperCase());
                 if (!indexString.contains(sortString)) {
-
                     indexString.add(sortString);
                 }
             }else{
                 sortModel.setSortLetters("#");
+                isGarbled = true;
             }
             mSortList.add(sortModel);
         }
         Collections.sort(indexString);
-        /*sideBar.setIndexText(indexString);*/ //只显示有内容部分的字母index
+        if (isGarbled){//出现乱码，将其添加到索引
+            indexString.add("#");
+        }
+
+        String[] IndexList = Concat(indexItems,indexString.toArray(new String[indexString.size()]));
+        sideBar.setIndexItems(IndexList); //只显示有内容部分的字母index
+
         return mSortList;
     }
+
+    private String[] Concat(String[] a,String[] b) {//合并两个数组
+
+        String[] mIndexItems = new String[a.length + b.length];
+
+        System.arraycopy(a, 0, mIndexItems, 0, a.length);
+        System.arraycopy(b, 0, mIndexItems, a.length, b.length);
+
+        return mIndexItems;
+    }
+
 
 }
