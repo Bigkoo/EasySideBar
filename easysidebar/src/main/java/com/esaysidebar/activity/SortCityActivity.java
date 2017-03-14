@@ -30,6 +30,7 @@ public class SortCityActivity extends Activity {
     private EasySideBar sideBar;
     private TextView mTvTitle;
     private TextView mTvLoaction,tv_label_location,tv_label_hot;
+    private ImageView iv_back;
     private SortAdapter adapter;
     private GridCityAdapter cityAdapter;//热门城市的适配器
     private EditText mEtCityName;
@@ -67,14 +68,7 @@ public class SortCityActivity extends Activity {
         sideBar = (EasySideBar) findViewById(R.id.sidebar);
         mTvTitle = (TextView) findViewById(R.id.tv_title);
         sortListView = (ListView) findViewById(R.id.country_lvcountry);
-        ImageView iv_back = (ImageView) findViewById(R.id.iv_back);
-
-        iv_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SortCityActivity.this.finish();
-            }
-        });
+        iv_back = (ImageView) findViewById(R.id.iv_back);
 
         sortListView.addHeaderView(initLocationHeadView());
         sortListView.addHeaderView(initHotHeadView());
@@ -145,10 +139,18 @@ public class SortCityActivity extends Activity {
 
             }
         });
+
+        iv_back.setOnClickListener(new View.OnClickListener() {//点击 finish 掉页面
+            @Override
+            public void onClick(View v) {
+                SortCityActivity.this.finish();
+            }
+        });
     }
 
     private void initSideBar() {//初始化sidebar
 
+        //标题栏初始化
         if (!TextUtils.isEmpty(titleText)){
             mTvTitle.setVisibility(View.VISIBLE);
             mTvTitle.setText(titleText);
