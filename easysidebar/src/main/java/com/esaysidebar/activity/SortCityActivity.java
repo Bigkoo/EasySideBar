@@ -76,11 +76,14 @@ public class SortCityActivity extends Activity {
             }
         });
 
-        sortListView.addHeaderView(initHeadView());
+        sortListView.addHeaderView(initLocationHeadView());
+        sortListView.addHeaderView(initHotHeadView());
         initSideBar();
         initEvents();
         setAdapter();
     }
+
+
 
     private void setAdapter() {
 
@@ -105,7 +108,7 @@ public class SortCityActivity extends Activity {
 
                     for (int i= 0; i<indexItems.length;i++){//匹配头部索引
                         if (value.equals(indexItems[i])){
-                            sortListView.setSelection(0);
+                            sortListView.setSelection(i);
                         }
                     }
 
@@ -145,25 +148,25 @@ public class SortCityActivity extends Activity {
     }
 
     private void initSideBar() {//初始化sidebar
-        /*setTitle();*/
+
         if (!TextUtils.isEmpty(titleText)){
             mTvTitle.setVisibility(View.VISIBLE);
             mTvTitle.setText(titleText);
         }else {
             mTvTitle.setVisibility(View.GONE);
         }
-        /*sideBar.setIndexItems(indexItems);*/
+
         sideBar.setLazyRespond(isLazyRespond);
         sideBar.setTextColor(indexColor);
         sideBar.setMaxOffset(maxOffset);
     }
 
-    private View initHeadView() {
+    private View initHotHeadView() {
 
-        View headView = getLayoutInflater().inflate(R.layout.sortcity_headview, null);
+        View headView = getLayoutInflater().inflate(R.layout.headview_hotcity, null);
         GridView mGvCity = (GridView) headView.findViewById(R.id.gv_hot_city);
-        mTvLoaction =(TextView) headView.findViewById(R.id.tv_location_city);
-        tv_label_location =(TextView) headView.findViewById(R.id.tv_label_location);
+       /* mTvLoaction =(TextView) headView.findViewById(R.id.tv_location_city);
+        tv_label_location =(TextView) headView.findViewById(R.id.tv_label_location);*/
         tv_label_hot =(TextView) headView.findViewById(R.id.tv_label_hot);
 
         if (HotCityList.size()<=0){//热门城市
@@ -172,12 +175,10 @@ public class SortCityActivity extends Activity {
             tv_label_hot.setVisibility(View.VISIBLE);
         }
 
-        if (TextUtils.isEmpty(LocationCity)){//定位城市
+       /* if (TextUtils.isEmpty(LocationCity)){//定位城市
             mTvLoaction.setVisibility(View.GONE);
             tv_label_location.setVisibility(View.GONE);
-
         } else {
-
             tv_label_location.setVisibility(View.VISIBLE);
             mTvLoaction.setVisibility(View.VISIBLE);
             mTvLoaction.setText(LocationCity);//设置定位城市
@@ -189,7 +190,7 @@ public class SortCityActivity extends Activity {
                     SentDataForResult(LocationCity);
                 }
             });
-        }
+        }*/
 
 
         cityAdapter = new GridCityAdapter(this, R.layout.gridview_item, HotCityList);
@@ -198,12 +199,35 @@ public class SortCityActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
               //选中的 Gird city
-
                 SentDataForResult(HotCityList.get(i));
 
             }
         });
 
+        return headView;
+    }
+
+    private View initLocationHeadView() {
+        View headView = getLayoutInflater().inflate(R.layout.headview_loaction, null);
+
+        mTvLoaction =(TextView) headView.findViewById(R.id.tv_location_city);
+        tv_label_location =(TextView) headView.findViewById(R.id.tv_label_location);
+
+        if (TextUtils.isEmpty(LocationCity)){//定位城市
+            mTvLoaction.setVisibility(View.GONE);
+            tv_label_location.setVisibility(View.GONE);
+        } else {
+            tv_label_location.setVisibility(View.VISIBLE);
+            mTvLoaction.setVisibility(View.VISIBLE);
+            mTvLoaction.setText(LocationCity);//设置定位城市
+
+            mTvLoaction.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SentDataForResult(LocationCity);
+                }
+            });
+        }
         return headView;
     }
 

@@ -6,7 +6,7 @@
     android:background="@color/color_background_gray"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+ <!--   <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -35,7 +35,7 @@
             android:padding="10dp"
             android:background="@drawable/selector_btn_press"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <TextView
