@@ -8,7 +8,7 @@
 ### 1.添加Jcenter仓库 Gradle依赖：
 
 ```java
-compile 'com.contrarywind:EasySideBar:1.0.1'
+compile 'com.contrarywind:EasySideBar:1.1.0'
 ```
 
 ## 2.在Activity中添加如下代码：
