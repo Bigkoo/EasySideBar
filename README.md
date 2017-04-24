@@ -70,7 +70,7 @@ new EasySideBarBuilder(MainActivity.this)
 - [WaveSideBar](https://github.com/gjiazhe/WaveSideBar)
 
 
-#License
+# License
 
 ```
 Copyright 2014 Bigkoo
