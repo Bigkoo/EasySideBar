@@ -1,7 +1,7 @@
 # EasySideBar
 一款按字母排序的库，已封装好城市数据，可定制化强，也可以下载源代码用Module的形式引入自己改一改来使用，也可稍做改造定制成通讯录。欢迎Star、提建议、提Issue。
 
-![EasySideBar.gif](https://res.bigkoo.com/gitlab/easysidebar.gif)
+![EasySideBar.gif](https://github.com/Bigkoo/EasySideBar/blob/master/preview/GIF.gif)
 
 ## **使用步骤：**
 
